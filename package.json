@@ -2,7 +2,7 @@
   "name": "markdown-made-easy",
   "displayName": "Markdown Made Easy",
   "description": "Create Markdown files quickly from friendly, ready-to-edit templates.",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "publisher": "johndowe",
   "license": "SEE LICENSE IN LICENSE.txt",
   "engines": {
