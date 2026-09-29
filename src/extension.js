@@ -1,6 +1,8 @@
 const vscode = require("vscode");
 const { execFile } = require("child_process");
 const { promisify } = require("util");
+const fs = require("fs/promises");
+const path = require("path");
 
 const execFileAsync = promisify(execFile);
 
@@ -203,6 +205,39 @@ async function generatedValue(variableName, document) {
   return undefined;
 }
 
+async function projectVersion(workspaceRoot) {
+  if (!workspaceRoot) return undefined;
+  try {
+    const manifest = JSON.parse(await fs.readFile(path.join(workspaceRoot, "package.json"), "utf8"));
+    return manifest.version;
+  } catch {
+    return undefined;
+  }
+}
+
+function timelineLine(labels) {
+  return labels.join(" ──► ");
+}
+
+async function createTimeline(document) {
+  const workspaceRoot = workspacePath(document);
+  const countText = await runGit(workspaceRoot, ["rev-list", "--count", "HEAD"]);
+  const currentTag = (await runGit(workspaceRoot, ["describe", "--tags", "--exact-match", "HEAD"]))?.trim();
+  const version = await projectVersion(workspaceRoot);
+  const count = Number.parseInt(countText?.trim(), 10);
+  if (!Number.isFinite(count) || count < 1) {
+    return "# Timeline\n\n```text\nNo Git history is available for this workspace yet.\n```\n";
+  }
+  const first = Math.max(1, count - 7);
+  const labels = Array.from({ length: count - first + 1 }, (_, index) => String(first + index).padStart(3, "0"));
+  const prefix = first > 1 ? "… ──► " : "";
+  const line = prefix + timelineLine(labels);
+  const current = labels.at(-1);
+  const arrowOffset = line.lastIndexOf(current) + Math.floor(current.length / 2);
+  const currentDescription = currentTag ? `Current Commit (${currentTag})` : version ? `Current Commit (v${version})` : "Current Commit";
+  return `# Timeline\n\n\`\`\`text\n${line}\n${" ".repeat(arrowOffset)}↑\n${" ".repeat(Math.max(0, arrowOffset - Math.floor(currentDescription.length / 2)))}${currentDescription}\n\`\`\`\n`;
+}
+
 function suggestionsForVariable(variableName) {
   const today = new Date();
   const date = today.toISOString().slice(0, 10);
@@ -276,13 +311,32 @@ async function openGitWorkspace(resource) {
     vscode.window.showInformationMessage("Right-click a Markdown file in the Explorer to open its Git workspace.");
     return;
   }
-  const path = require("path");
   const gitRoot = await gitRootForPath(path.dirname(resource.fsPath));
   if (!gitRoot) {
     vscode.window.showWarningMessage("This Markdown file is not inside a Git repository.");
     return;
   }
   await vscode.commands.executeCommand("vscode.openFolder", vscode.Uri.file(gitRoot), true);
+}
+
+async function insertReadmeSection() {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) return;
+  const section = await vscode.window.showQuickPick([
+    {
+      label: "Timeline",
+      description: "Generate a commit timeline from Git history, version, and current tag.",
+      id: "timeline"
+    }
+  ], {
+    title: "Add README Section",
+    placeHolder: "Choose a section to insert"
+  });
+  if (!section) return;
+  const content = section.id === "timeline" ? await createTimeline(editor.document) : "";
+  if (!content) return;
+  const prefix = editor.document.getText().trim() ? "\n\n" : "";
+  await editor.edit((editBuilder) => editBuilder.insert(editor.selection.active, `${prefix}${content}`));
 }
 
 function activate(context) {
@@ -292,6 +346,7 @@ function activate(context) {
     vscode.commands.registerCommand("markdownMadeEasy.createTemplate", () => createTemplate(context)),
     vscode.commands.registerCommand("markdownMadeEasy.fillVariable", fillVariable),
     vscode.commands.registerCommand("markdownMadeEasy.openGitWorkspace", openGitWorkspace),
+    vscode.commands.registerCommand("markdownMadeEasy.insertReadmeSection", insertReadmeSection),
     vscode.languages.registerCodeLensProvider({ language: "markdown" }, new TemplateVariableCodeLensProvider())
   );
 }

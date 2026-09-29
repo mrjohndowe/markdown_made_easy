@@ -2,7 +2,7 @@
   "name": "markdown-made-easy",
   "displayName": "Markdown Made Easy",
   "description": "Create Markdown files quickly from friendly, ready-to-edit templates.",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "publisher": "johndowe",
   "license": "SEE LICENSE IN LICENSE.txt",
   "engines": {
@@ -15,7 +15,8 @@
     "onCommand:markdownMadeEasy.insertTemplate",
     "onCommand:markdownMadeEasy.createTemplate",
     "onCommand:markdownMadeEasy.fillVariable",
-    "onCommand:markdownMadeEasy.openGitWorkspace"
+    "onCommand:markdownMadeEasy.openGitWorkspace",
+    "onCommand:markdownMadeEasy.insertReadmeSection"
   ],
   "main": "./src/extension.js",
   "contributes": {
@@ -44,6 +45,11 @@
         "command": "markdownMadeEasy.openGitWorkspace",
         "title": "Markdown Made Easy: Open as Git Workspace",
         "category": "Markdown Made Easy"
+      },
+      {
+        "command": "markdownMadeEasy.insertReadmeSection",
+        "title": "Markdown Made Easy: Add README Section",
+        "category": "Markdown Made Easy"
       }
     ],
     "menus": {
@@ -57,6 +63,11 @@
           "command": "markdownMadeEasy.createTemplate",
           "when": "resourceLangId == markdown",
           "group": "markdownMadeEasy@2"
+        },
+        {
+          "command": "markdownMadeEasy.insertReadmeSection",
+          "when": "resourceLangId == markdown && resourceFilename =~ /readme\\.md$/i",
+          "group": "markdownMadeEasy@3"
         }
       ],
       "explorer/context": [
