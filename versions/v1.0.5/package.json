@@ -1,0 +1,75 @@
+{
+  "name": "markdown-made-easy",
+  "displayName": "Markdown Made Easy",
+  "description": "Create Markdown files quickly from friendly, ready-to-edit templates.",
+  "version": "1.0.5",
+  "publisher": "johndowe",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Snippets", "Other"],
+  "activationEvents": [
+    "onCommand:markdownMadeEasy.newFromTemplate",
+    "onCommand:markdownMadeEasy.insertTemplate",
+    "onCommand:markdownMadeEasy.createTemplate",
+    "onCommand:markdownMadeEasy.fillVariable",
+    "onCommand:markdownMadeEasy.openGitWorkspace"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "markdownMadeEasy.newFromTemplate",
+        "title": "Markdown Made Easy: New File from Template",
+        "category": "Markdown Made Easy"
+      },
+      {
+        "command": "markdownMadeEasy.insertTemplate",
+        "title": "Markdown Made Easy: Insert Template in Current File",
+        "category": "Markdown Made Easy"
+      },
+      {
+        "command": "markdownMadeEasy.createTemplate",
+        "title": "Markdown Made Easy: Create Template from Current File",
+        "category": "Markdown Made Easy"
+      },
+      {
+        "command": "markdownMadeEasy.fillVariable",
+        "title": "Markdown Made Easy: Fill Template Variable",
+        "category": "Markdown Made Easy"
+      },
+      {
+        "command": "markdownMadeEasy.openGitWorkspace",
+        "title": "Markdown Made Easy: Open as Git Workspace",
+        "category": "Markdown Made Easy"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "markdownMadeEasy.insertTemplate",
+          "when": "resourceLangId == markdown",
+          "group": "markdownMadeEasy@1"
+        },
+        {
+          "command": "markdownMadeEasy.createTemplate",
+          "when": "resourceLangId == markdown",
+          "group": "markdownMadeEasy@2"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "markdownMadeEasy.openGitWorkspace",
+          "when": "resourceExtname == .md",
+          "group": "navigation@1"
+        }
+      ]
+    }
+  },
+  "keywords": ["markdown", "template", "readme", "notes", "release-notes"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrjohndowe/MossaicExtensionforOperaGX.git"
+  }
+}
