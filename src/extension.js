@@ -131,6 +131,17 @@ async function runGit(workspaceRoot, args) {
   }
 }
 
+async function gitRootForPath(filePath) {
+  try {
+    const { stdout } = await execFileAsync("git", ["-C", filePath, "rev-parse", "--show-toplevel"], {
+      windowsHide: true
+    });
+    return stdout.trim() || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function formatFileList(files) {
   return files.length ? files.map((file) => `- ${file}`).join("\n") : "- None";
 }
@@ -260,12 +271,27 @@ class TemplateVariableCodeLensProvider {
   }
 }
 
+async function openGitWorkspace(resource) {
+  if (!resource?.fsPath) {
+    vscode.window.showInformationMessage("Right-click a Markdown file in the Explorer to open its Git workspace.");
+    return;
+  }
+  const path = require("path");
+  const gitRoot = await gitRootForPath(path.dirname(resource.fsPath));
+  if (!gitRoot) {
+    vscode.window.showWarningMessage("This Markdown file is not inside a Git repository.");
+    return;
+  }
+  await vscode.commands.executeCommand("vscode.openFolder", vscode.Uri.file(gitRoot), true);
+}
+
 function activate(context) {
   context.subscriptions.push(
     vscode.commands.registerCommand("markdownMadeEasy.newFromTemplate", () => newFileFromTemplate(context)),
     vscode.commands.registerCommand("markdownMadeEasy.insertTemplate", () => insertTemplate(context)),
     vscode.commands.registerCommand("markdownMadeEasy.createTemplate", () => createTemplate(context)),
     vscode.commands.registerCommand("markdownMadeEasy.fillVariable", fillVariable),
+    vscode.commands.registerCommand("markdownMadeEasy.openGitWorkspace", openGitWorkspace),
     vscode.languages.registerCodeLensProvider({ language: "markdown" }, new TemplateVariableCodeLensProvider())
   );
 }

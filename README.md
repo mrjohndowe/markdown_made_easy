@@ -51,3 +51,7 @@ Use `Ctrl+Shift+P` and run **Markdown Made Easy: New File from Template** when y
 4. Choose the packaged `.vsix` file from this project.
 
 The extension has no network access, telemetry, account requirement, or external dependencies.
+
+## Open a template as a Git workspace
+
+If you open a Markdown template by itself, right-click that `.md` file in VS Code's Explorer and choose **Markdown Made Easy: Open as Git Workspace**. The extension finds the file's Git repository root and opens that folder in a new VS Code window. This lets the file and folder variables read the correct project state without closing your current window.
