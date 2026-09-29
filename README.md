@@ -43,18 +43,6 @@ Suggestions are tailored to common variable names:
 
 Use `Ctrl+Shift+P` and run **Markdown Made Easy: New File from Template** when you want a fresh Markdown document.
 
-## Add a generated README timeline
-
-When editing `README.md`, right-click in the editor and select **Markdown Made Easy: Add README Section**. Choose **Timeline** from the drop-down. The extension inserts a timeline such as:
-
-```text
-001 ──► 002 ──► 003 ──► 004
-                         ↑
-                Current Commit (v1.0.7)
-```
-
-The numbered milestones are generated from the Git commit count. The current marker uses the exact Git tag when `HEAD` is tagged; otherwise it uses the version in the workspace `package.json`. It refreshes each time you insert a timeline.
-
 ## Install locally
 
 1. Open the Extensions view with `Ctrl+Shift+X`.
@@ -63,9 +51,3 @@ The numbered milestones are generated from the Git commit count. The current mar
 4. Choose the packaged `.vsix` file from this project.
 
 The extension has no network access, telemetry, account requirement, or external dependencies.
-
-## Open a template as a Git workspace
-
-If you open a Markdown template by itself, right-click that `.md` file in VS Code's Explorer and choose **Markdown Made Easy: Open as Git Workspace**. The extension finds the file's Git repository root and opens that folder in a new VS Code window. This lets the file and folder variables read the correct project state without closing your current window.
-# markdown_made_easy
-Markdown Made Easy makes Markdown templates easy to reuse inside VS Code.
