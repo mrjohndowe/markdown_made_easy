@@ -65,6 +65,12 @@ The numbered milestones are generated from the Git commit count. The current mar
 
 The extension has no network access, telemetry, account requirement, or external dependencies.
 
+## Automatic updates from GitHub
+
+Markdown Made Easy checks this repository's latest GitHub Release whenever VS Code starts. When a newer release is available, it downloads the matching VSIX, installs it through VS Code, and asks you to reload the window. No manual VSIX installation is required after the first version containing this updater is installed.
+
+Automatic updates are on by default. To turn them off, set **Markdown Made Easy: Auto Update** to false in VS Code Settings.
+
 ## Open a template as a Git workspace
 
 If you open a Markdown template by itself, right-click that `.md` file in VS Code's Explorer and choose **Markdown Made Easy: Open as Git Workspace**. The extension finds the file's Git repository root and opens that folder in a new VS Code window. This lets the file and folder variables read the correct project state without closing your current window.

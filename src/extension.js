@@ -3,8 +3,10 @@ const { execFile } = require("child_process");
 const { promisify } = require("util");
 const fs = require("fs/promises");
 const path = require("path");
+const https = require("https");
 
 const execFileAsync = promisify(execFile);
+const repositoryApi = "https://api.github.com/repos/mrjohndowe/markdown_made_easy/releases/latest";
 
 const templates = [
   {
@@ -157,6 +159,74 @@ async function runGit(workspaceRoot, args) {
     return stdout;
   } catch {
     return undefined;
+  }
+}
+
+function getJson(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { "User-Agent": "Markdown-Made-Easy" } }, (response) => {
+      if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+        response.resume();
+        resolve(getJson(response.headers.location));
+        return;
+      }
+      let body = "";
+      response.setEncoding("utf8");
+      response.on("data", (chunk) => { body += chunk; });
+      response.on("end", () => response.statusCode === 200 ? resolve(JSON.parse(body)) : reject(new Error(`GitHub returned ${response.statusCode}`)));
+    }).on("error", reject);
+  });
+}
+
+function downloadFile(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { "User-Agent": "Markdown-Made-Easy" } }, (response) => {
+      if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+        response.resume();
+        resolve(downloadFile(response.headers.location));
+        return;
+      }
+      if (response.statusCode !== 200) {
+        response.resume();
+        reject(new Error(`VSIX download returned ${response.statusCode}`));
+        return;
+      }
+      const chunks = [];
+      response.on("data", (chunk) => chunks.push(chunk));
+      response.on("end", () => resolve(Buffer.concat(chunks)));
+    }).on("error", reject);
+  });
+}
+
+function isNewerVersion(candidate, current) {
+  const numbers = (value) => value.replace(/^v/, "").split(".").map((part) => Number.parseInt(part, 10) || 0);
+  const candidateParts = numbers(candidate);
+  const currentParts = numbers(current);
+  const length = Math.max(candidateParts.length, currentParts.length);
+  for (let index = 0; index < length; index += 1) {
+    const candidatePart = candidateParts[index] ?? 0;
+    const currentPart = currentParts[index] ?? 0;
+    if (candidatePart !== currentPart) return candidatePart > currentPart;
+  }
+  return false;
+}
+
+async function installGitHubUpdate(context) {
+  if (!vscode.workspace.getConfiguration("markdownMadeEasy").get("autoUpdate", true)) return;
+  try {
+    const release = await getJson(repositoryApi);
+    const installed = vscode.extensions.getExtension("johndowe.markdown-made-easy")?.packageJSON?.version ?? "0.0.0";
+    if (!release?.tag_name || !isNewerVersion(release.tag_name, installed)) return;
+    const asset = release.assets?.find((item) => item.name === `markdown-made-easy-${release.tag_name.replace(/^v/, "")}.vsix`);
+    if (!asset?.browser_download_url) return;
+    const bytes = await downloadFile(asset.browser_download_url);
+    const updateUri = vscode.Uri.joinPath(context.globalStorageUri, asset.name);
+    await vscode.workspace.fs.createDirectory(context.globalStorageUri);
+    await vscode.workspace.fs.writeFile(updateUri, bytes);
+    await vscode.commands.executeCommand("workbench.extensions.installExtension", updateUri);
+    vscode.window.showInformationMessage(`Markdown Made Easy ${release.tag_name} was installed. Reload VS Code to use the update.`);
+  } catch {
+    // Updates are optional. A network or GitHub failure must not interrupt editing.
   }
 }
 
@@ -469,6 +539,7 @@ async function insertReadmeSection() {
 }
 
 function activate(context) {
+  void installGitHubUpdate(context);
   context.subscriptions.push(
     vscode.commands.registerCommand("markdownMadeEasy.newFromTemplate", () =>
       newFileFromTemplate(context),
