@@ -2,7 +2,7 @@
   "name": "markdown-made-easy",
   "displayName": "Markdown Made Easy",
   "description": "Create Markdown files quickly from friendly, ready-to-edit templates.",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "publisher": "johndowe",
   "license": "SEE LICENSE IN LICENSE.txt",
   "engines": {
@@ -82,6 +82,6 @@
   "keywords": ["markdown", "template", "readme", "notes", "release-notes"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/mrjohndowe/MossaicExtensionforOperaGX.git"
+    "url": "https://github.com/mrjohndowe/markdown_made_easy.git"
   }
 }

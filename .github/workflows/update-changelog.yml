@@ -41,13 +41,20 @@ jobs:
           fi
 
       - name: Read release notes
+        id: release_notes
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
-          gh release view "${RELEASE_TAG}" --json body --jq .body > "${RUNNER_TEMP}/release-notes.md"
+          if ! gh release view "${RELEASE_TAG}" --json body --jq .body > "${RUNNER_TEMP}/release-notes.md"; then
+            echo "Release ${RELEASE_TAG} does not exist yet; skipping the changelog update."
+            echo "release_found=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "release_found=true" >> "$GITHUB_OUTPUT"
 
       - name: Add release to changelog
+        if: steps.release_notes.outputs.release_found == 'true'
         id: changelog
         shell: pwsh
         run: |
@@ -78,7 +85,7 @@ jobs:
           "changed=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Commit changelog
-        if: steps.changelog.outputs.changed == 'true'
+        if: steps.release_notes.outputs.release_found == 'true' && steps.changelog.outputs.changed == 'true'
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
