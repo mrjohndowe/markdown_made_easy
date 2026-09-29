@@ -1,2 +1,71 @@
+# Markdown Made Easy for VS Code
+
+Markdown Made Easy makes Markdown templates easy to reuse inside VS Code.
+
+## Create and insert templates
+
+While editing a Markdown file, right-click in the editor and choose:
+
+- **Markdown Made Easy: Insert Template in Current File** — choose a template and insert it at the cursor.
+- **Markdown Made Easy: Create Template from Current File** — save the complete current document as a reusable personal template.
+
+Personal templates are stored privately in VS Code on this device. Saving another template with the same name updates it.
+
+## Fill template variables without right-clicking
+
+Write placeholders in any template using the form `{{VARIABLE_NAME}}`, such as:
+
+```markdown
+# {{PROJECT_NAME}}
+
+**Date:** {{DATE}}
+
+## Summary
+
+{{SUMMARY}}
+```
+
+The extension detects every variable automatically and places a clickable **Fill VARIABLE** control above it. Click that control to choose a suggested value or select **Enter a custom value…**. Only the matching placeholder is replaced.
+
+Suggestions are tailored to common variable names:
+
+- `{{DATE}}` — current numeric or written date
+- `{{PROJECT_NAME}}` — name of the open VS Code workspace
+- `{{VERSION}}` — common starting version numbers
+- `{{FILES_ADDED}}` — files Git currently reports as added or untracked
+- `{{FILES_MODIFIED}}` — files Git currently reports as changed
+- `{{FILES_REMOVED}}` — files Git currently reports as deleted
+- `{{FOLDER_STRUCTURE}}` — an ASCII tree generated from tracked and untracked project files
+- `{{SUMMARY}}`, `{{TITLE}}`, and `{{COMMIT_TITLE}}` — useful writing starters
+- Every other variable — a sensible default plus a custom-value option
+
+## Start a new Markdown file
+
+Use `Ctrl+Shift+P` and run **Markdown Made Easy: New File from Template** when you want a fresh Markdown document.
+
+## Add a generated README timeline
+
+When editing `README.md`, right-click in the editor and select **Markdown Made Easy: Add README Section**. Choose **Timeline** from the drop-down. The extension inserts a timeline such as:
+
+```text
+001 ──► 002 ──► 003 ──► 004
+                         ↑
+                Current Commit (v1.0.7)
+```
+
+The numbered milestones are generated from the Git commit count. The current marker uses the exact Git tag when `HEAD` is tagged; otherwise it uses the version in the workspace `package.json`. It refreshes each time you insert a timeline.
+
+## Install locally
+
+1. Open the Extensions view with `Ctrl+Shift+X`.
+2. Select the `…` menu.
+3. Select **Install from VSIX…**.
+4. Choose the packaged `.vsix` file from this project.
+
+The extension has no network access, telemetry, account requirement, or external dependencies.
+
+## Open a template as a Git workspace
+
+If you open a Markdown template by itself, right-click that `.md` file in VS Code's Explorer and choose **Markdown Made Easy: Open as Git Workspace**. The extension finds the file's Git repository root and opens that folder in a new VS Code window. This lets the file and folder variables read the correct project state without closing your current window.
 # markdown_made_easy
 Markdown Made Easy makes Markdown templates easy to reuse inside VS Code.
