@@ -2,7 +2,7 @@
   "name": "markdown-made-easy",
   "displayName": "Markdown Made Easy",
   "description": "Create Markdown files quickly from friendly, ready-to-edit templates.",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "publisher": "johndowe",
   "license": "SEE LICENSE IN LICENSE.txt",
   "engines": {
@@ -20,6 +20,16 @@
   ],
   "main": "./src/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "Markdown Made Easy",
+      "properties": {
+        "markdownMadeEasy.autoUpdate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically download and install newer Markdown Made Easy releases from GitHub. VS Code will ask you to reload after an update is installed."
+        }
+      }
+    },
     "commands": [
       {
         "command": "markdownMadeEasy.newFromTemplate",
