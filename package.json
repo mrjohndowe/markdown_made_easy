@@ -2,7 +2,7 @@
   "name": "markdown-made-easy",
   "displayName": "Markdown Made Easy",
   "description": "Create Markdown files quickly from friendly, ready-to-edit templates.",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "publisher": "johndowe",
   "license": "SEE LICENSE IN LICENSE.txt",
   "engines": {
@@ -48,7 +48,7 @@
       },
       {
         "command": "markdownMadeEasy.insertReadmeSection",
-        "title": "Markdown Made Easy: Add README Section",
+        "title": "Markdown Made Easy: Add Markdown Section",
         "category": "Markdown Made Easy"
       }
     ],
@@ -66,7 +66,7 @@
         },
         {
           "command": "markdownMadeEasy.insertReadmeSection",
-          "when": "resourceLangId == markdown && resourceFilename =~ /readme\\.md$/i",
+          "when": "resourceLangId == markdown",
           "group": "markdownMadeEasy@3"
         }
       ],

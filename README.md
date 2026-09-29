@@ -43,9 +43,9 @@ Suggestions are tailored to common variable names:
 
 Use `Ctrl+Shift+P` and run **Markdown Made Easy: New File from Template** when you want a fresh Markdown document.
 
-## Add a generated README timeline
+## Add a generated Markdown timeline
 
-When editing `README.md`, right-click in the editor and select **Markdown Made Easy: Add README Section**. Choose **Timeline** from the drop-down. The extension inserts a timeline such as:
+When editing any Markdown file, right-click in the editor and select **Markdown Made Easy: Add Markdown Section**. Choose **Timeline** from the drop-down. The extension inserts a timeline such as:
 
 ```text
 001 ──► 002 ──► 003 ──► 004

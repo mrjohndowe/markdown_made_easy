@@ -329,7 +329,7 @@ async function insertReadmeSection() {
       id: "timeline"
     }
   ], {
-    title: "Add README Section",
+    title: "Add Markdown Section",
     placeHolder: "Choose a section to insert"
   });
   if (!section) return;
