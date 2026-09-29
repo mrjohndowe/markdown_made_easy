@@ -48,9 +48,10 @@ Use `Ctrl+Shift+P` and run **Markdown Made Easy: New File from Template** when y
 When editing any Markdown file, right-click in the editor and select **Markdown Made Easy: Add Markdown Section**. Choose **Timeline** from the drop-down. The extension inserts a timeline such as:
 
 ```text
-001 ──► 002 ──► 003 ──► 004
-                         ↑
-                Current Commit (v1.0.7)
+001 ──► 002 ──► 003 ──► 004 ──► 005 ──► 006 ──►...
+                 ↑
+
+Current Commit (v1.0.7)
 ```
 
 The numbered milestones are generated from the Git commit count. The current marker uses the exact Git tag when `HEAD` is tagged; otherwise it uses the version in the workspace `package.json`. It refreshes each time you insert a timeline.
