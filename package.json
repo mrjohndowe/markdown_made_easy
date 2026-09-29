@@ -2,7 +2,7 @@
   "name": "markdown-made-easy",
   "displayName": "Markdown Made Easy",
   "description": "Create Markdown files quickly from friendly, ready-to-edit templates.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "publisher": "johndowe",
   "license": "SEE LICENSE IN LICENSE.txt",
   "engines": {
@@ -10,6 +10,7 @@
   },
   "categories": ["Snippets", "Other"],
   "activationEvents": [
+    "onLanguage:markdown",
     "onCommand:markdownMadeEasy.newFromTemplate",
     "onCommand:markdownMadeEasy.insertTemplate",
     "onCommand:markdownMadeEasy.createTemplate",
