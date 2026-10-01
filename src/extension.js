@@ -12,22 +12,22 @@ const templates = [
   {
     label: "Blank document",
     description: "A clean Markdown page, ready for anything.",
-    body: "# Untitled document\n\nStart writing here.\n",,
+    body: "# Untitled document\n\nStart writing here.\n",
   },
   {
     label: "Project README",
     description: "Explain your project, its setup, and its features.",
-    body: "# Project name\n\nA short, clear description of what this project does.\n\n## Getting started\n\n1. Install the project\n2. Follow the setup steps\n3. Start using it\n\n## Features\n\n- Feature one\n- Feature two\n- Feature three\n\n## License\n\nAdd your license information here.\n",,
+    body: "# Project name\n\nA short, clear description of what this project does.\n\n## Getting started\n\n1. Install the project\n2. Follow the setup steps\n3. Start using it\n\n## Features\n\n- Feature one\n- Feature two\n- Feature three\n\n## License\n\nAdd your license information here.\n",
   },
   {
     label: "Meeting notes",
     description: "Capture decisions, tasks, and the next conversation.",
-    body: "# Meeting notes\n\n**Date:** \n**Attendees:** \n\n## Discussion\n\n- \n\n## Decisions\n\n- \n\n## Next steps\n\n- [ ] Task — owner\n",,
+    body: "# Meeting notes\n\n**Date:** \n**Attendees:** \n\n## Discussion\n\n- \n\n## Decisions\n\n- \n\n## Next steps\n\n- [ ] Task — owner\n",
   },
   {
     label: "Release notes",
     description: "Share a clear update for a new version.",
-    body: "# Version 1.0.0\n\n## Added\n\n- \n\n## Changed\n\n- \n\n## Fixed\n\n- \n",,
+    body: "# Version 1.0.0\n\n## Added\n\n- \n\n## Changed\n\n- \n\n## Fixed\n\n- \n",
   },,
 ];
 
@@ -58,7 +58,7 @@ async function newFileFromTemplate(context) {
 
   const document = await vscode.workspace.openTextDocument({
     content: template.body,
-    language: "markdown",,
+    language: "markdown",
   });
   const editor = await vscode.window.showTextDocument(document);
   editor.selection = new vscode.Selection(
@@ -66,7 +66,7 @@ async function newFileFromTemplate(context) {
     new vscode.Position(0, 2),
 
     new vscode.Position(0, 18),
-  ,
+
   );
 }
 
@@ -82,7 +82,7 @@ async function insertTemplate(context) {
   await editor.edit((editBuilder) =>
 
     editBuilder.insert(editor.selection.active, template.body),
-  ,
+
   );
 }
 
@@ -92,7 +92,7 @@ async function createTemplate(context) {
     vscode.window.showInformationMessage(
 
       "Open a Markdown file before creating a template.",
-    ,
+
     );
     return;
   }
@@ -102,7 +102,7 @@ async function createTemplate(context) {
     vscode.window.showInformationMessage(
 
       "Add some Markdown before saving it as a template.",
-    ,
+
     );
     return;
   }
@@ -113,26 +113,26 @@ async function createTemplate(context) {
     placeHolder: "For example: Weekly project update",
     validateInput: (value) =>
 
-      value.trim() ? undefined : "A template name is required.",,
+      value.trim() ? undefined : "A template name is required.",
   });
   if (!label) return;
 
   const savedTemplates = customTemplates(context).filter(
 
     (template) => template.label !== label.trim(),
-  ,
+
   );
   savedTemplates.push({
     label: label.trim(),
     description: "Your saved template.",
     detail: "Personal template",
-    body,,
+    body,
   });
   await context.globalState.update("customTemplates", savedTemplates);
   vscode.window.showInformationMessage(
 
     `Saved “${label.trim()}” as a Markdown template.`,
-  ,
+
   );
 }
 
@@ -236,7 +236,7 @@ async function installGitHubUpdate(context) {
   if (!vscode.workspace.getConfiguration("markdownMadeEasy").get("autoUpdate", true)) return;
   try {
     const release = await getJson(repositoryApi);
-    const installed = vscode.extensions.getExtension("johndowe.markdown-made-easy")?.packageJSON?.version ?? "0.0.0";
+    const installed = vscode.extensions.getExtension("MrJohnDowe.markdown-made-easy")?.packageJSON?.version ?? "0.0.0";
     if (!release?.tag_name || !isNewerVersion(release.tag_name, installed)) return;
     const asset = release.assets?.find((item) => item.name === `markdown-made-easy-${release.tag_name.replace(/^v/, "")}.vsix`);
     if (!asset?.browser_download_url) return;

@@ -27,7 +27,7 @@
           "type": "boolean",
           "default": true,
           "description": "Automatically download and install newer Markdown Made Easy releases from GitHub. VS Code will ask you to reload after an update is installed."
-        },
+        }
       }
     },
     "commands": [
