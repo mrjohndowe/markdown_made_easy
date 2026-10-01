@@ -3,13 +3,21 @@
   "displayName": "Markdown Made Easy",
   "description": "Create Markdown files quickly from friendly, ready-to-edit templates.",
   "version": "1.0.12",
-  "pricing":"Free",
-  "publisher": "mrjohndowe",
-  "license": "LICENSE.md",
+  "publisher": "MrJohnDowe",
+  "license": "LICENSE",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": ["Snippets", "Other"],
+  "activationEvents": [
+    "onLanguage:markdown",
+    "onCommand:markdownMadeEasy.newFromTemplate",
+    "onCommand:markdownMadeEasy.insertTemplate",
+    "onCommand:markdownMadeEasy.createTemplate",
+    "onCommand:markdownMadeEasy.fillVariable",
+    "onCommand:markdownMadeEasy.openGitWorkspace",
+    "onCommand:markdownMadeEasy.insertReadmeSection"
+  ],
   "main": "./src/extension.js",
   "contributes": {
     "configuration": {
@@ -19,11 +27,10 @@
           "type": "boolean",
           "default": true,
           "description": "Automatically download and install newer Markdown Made Easy releases from GitHub. VS Code will ask you to reload after an update is installed."
-        }
+        },
       }
     },
     "commands": [
-
       {
         "command": "markdownMadeEasy.newFromTemplate",
         "title": "Markdown Made Easy: New File from Template",
