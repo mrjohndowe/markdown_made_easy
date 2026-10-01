@@ -23,11 +23,7 @@
       }
     },
     "commands": [
-      {
-        "command": "markdownMadeEasy.runPaidFeature",
-        "title": "Markdown Made Easy: Paid Features",
-        "category": "Paid Features"
-      },
+
       {
         "command": "markdownMadeEasy.newFromTemplate",
         "title": "Markdown Made Easy: New File from Template",
