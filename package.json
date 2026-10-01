@@ -4,7 +4,7 @@
   "description": "Create Markdown files quickly from friendly, ready-to-edit templates.",
   "version": "1.0.12",
   "pricing":"Free",
-  "publisher": "MrJohnDowe",
+  "publisher": "mrjohndowe",
   "license": "LICENSE.md",
   "engines": {
     "vscode": "^1.85.0"
