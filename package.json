@@ -4,11 +4,14 @@
   "description": "Create Markdown files quickly from friendly, ready-to-edit templates.",
   "version": "1.0.14",
   "publisher": "MrJohnDowe",
-  "license": "LICENSE",
+  "license": "SEE LICENSE IN LICENSE.md",
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": ["Snippets", "Other"],
+  "categories": [
+    "Snippets",
+    "Other"
+  ],
   "activationEvents": [
     "onLanguage:markdown",
     "onCommand:markdownMadeEasy.newFromTemplate",
@@ -89,9 +92,18 @@
       ]
     }
   },
-  "keywords": ["markdown", "template", "readme", "notes", "release-notes"],
+  "keywords": [
+    "markdown",
+    "template",
+    "readme",
+    "notes",
+    "release-notes"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/mrjohndowe/markdown_made_easy.git"
+  },
+  "dependencies": {
+    "pnpm": "^12.8.1"
   }
 }
